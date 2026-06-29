@@ -300,22 +300,42 @@
   /* crop editor */
   .crop-card{
     background:var(--surface);border-radius:18px;box-shadow:var(--shadow-lg);
-    width:min(680px,100%);max-height:92vh;display:flex;flex-direction:column;overflow:hidden;
+    width:min(680px,100%);max-height:92vh;max-height:92dvh;display:flex;flex-direction:column;overflow:hidden;
   }
-  .crop-head{display:flex;align-items:center;justify-content:space-between;
-    padding:16px 20px;border-bottom:1px solid var(--line)}
+  .crop-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+    padding:14px 18px;border-bottom:1px solid var(--line)}
   .crop-head h3{font-family:'Space Grotesk',sans-serif;font-size:17px;margin:0}
   .crop-head .sub{font-size:12px;color:var(--ink-faint);font-weight:500;margin-top:2px}
   .crop-x{width:30px;height:30px;border-radius:8px;border:0;background:var(--surface-2);color:var(--ink-soft);
     cursor:pointer;font-size:20px;line-height:1;display:grid;place-items:center;transition:all .14s}
   .crop-x:hover{background:var(--danger-soft);color:var(--danger)}
   .crop-stage{
-    flex:1;min-height:0;display:grid;place-items:center;padding:18px;
+    flex:1 1 auto;min-height:120px;display:flex;align-items:center;justify-content:center;padding:14px;overflow:hidden;
     background:repeating-conic-gradient(#eef1f6 0% 25%, #e6eaf1 0% 50%) 50%/22px 22px;
   }
-  .crop-wrap{position:relative;display:inline-block;line-height:0;touch-action:none;
-    box-shadow:0 6px 24px rgba(27,36,51,.22);max-width:100%}
-  .crop-wrap img{display:block;max-width:100%;max-height:56vh;user-select:none;-webkit-user-drag:none}
+  .crop-wrap{position:relative;display:block;line-height:0;touch-action:none;min-height:0;
+    box-shadow:0 6px 24px rgba(27,36,51,.22);max-width:100%;max-height:100%;transform-origin:center center}
+  .crop-wrap img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;user-select:none;-webkit-user-drag:none}
+  .quad-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+  .qh{position:absolute;width:30px;height:30px;border-radius:50%;transform:translate(-50%,-50%);
+    touch-action:none;cursor:grab;z-index:4;display:grid;place-items:center}
+  .qh::after{content:'';width:18px;height:18px;border-radius:50%;background:#fff;
+    border:3px solid var(--primary);box-shadow:0 1px 5px rgba(0,0,0,.4)}
+  .qh:active{cursor:grabbing}
+  .qh:active::after{background:var(--primary);border-color:#fff;transform:scale(1.1)}
+  .ed-fine{flex:1;min-width:150px}
+  .ed-hint{font-size:11.5px;color:var(--ink-faint);flex:1;min-width:0}
+  .pdfview-card{background:#fff;border-radius:18px;width:min(960px,96vw);height:min(88vh,1000px);
+    display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 70px rgba(15,20,30,.4)}
+  .pdfview-head{display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:12px 16px;border-bottom:1px solid var(--line);font-weight:700;font-size:14px}
+  .pdfview-head #pdfViewName{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  #pdfFrame{flex:1;width:100%;border:0;background:#525659}
+  #pdfPages{flex:1;overflow:auto;background:#525659;padding:14px;display:flex;flex-direction:column;align-items:center;gap:14px}
+  #pdfPages .pv-page{max-width:100%;height:auto;border-radius:4px;box-shadow:0 4px 16px rgba(0,0,0,.35);
+    -webkit-touch-callout:default;touch-callout:default}
+  #pdfPages .pv-loading{color:#e7eaf1;font-size:14px;margin:auto;padding:30px}
+  .pdfview-foot{padding:10px 16px;font-size:12px;color:var(--ink-faint);border-top:1px solid var(--line);text-align:center}
   .crop-box{
     position:absolute;left:5%;top:5%;width:90%;height:90%;
     border:1.5px solid #fff;cursor:move;box-shadow:0 0 0 9999px rgba(20,28,40,.5);
@@ -347,6 +367,48 @@
   .crop-btn svg{flex:none}
   .crop-btn.primary{background:var(--primary);color:#fff;border-color:var(--primary);padding:0 22px}
   .crop-btn.primary:hover{background:var(--primary-hover);color:#fff}
+
+  /* page-editor controls */
+  .ed-controls{padding:11px 16px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:10px;flex:none}
+  .ed-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .ed-label{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-faint);flex:none}
+  .ed-rotate{display:flex;gap:6px}
+  .ed-icobtn{width:38px;height:34px;border-radius:9px;border:1px solid var(--line-strong);background:var(--surface);
+    color:var(--ink-soft);cursor:pointer;display:grid;place-items:center;transition:all .14s;flex:none}
+  .ed-icobtn:hover{border-color:var(--primary);color:var(--primary);background:var(--surface-2)}
+  .ed-pill{font-family:'Inter',sans-serif;font-size:12.5px;font-weight:600;cursor:pointer;border-radius:8px;
+    height:32px;padding:0 12px;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink-soft);transition:all .14s;flex:none}
+  .ed-pill:hover{border-color:var(--primary);color:var(--primary);background:var(--surface-2)}
+  .ed-seg{flex:1;min-width:0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .ed-seg button{font-size:12.5px;padding:7px 4px;white-space:nowrap}
+  .ed-sliders{align-items:flex-end;gap:16px}
+  .ed-slider{flex:1;min-width:140px;display:flex;flex-direction:column;gap:5px}
+  .ed-slider label{font-size:12px;color:var(--ink-soft);font-weight:600;display:flex;justify-content:space-between}
+  .ed-slider label b{font-family:'JetBrains Mono',monospace;color:var(--primary);font-weight:700}
+  .ed-slider input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:5px;border-radius:3px;
+    background:var(--line-strong);outline:none;cursor:pointer}
+  .ed-slider input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;
+    border-radius:50%;background:var(--primary);border:2px solid #fff;box-shadow:var(--shadow-sm);cursor:pointer}
+  .ed-slider input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--primary);
+    border:2px solid #fff;box-shadow:var(--shadow-sm);cursor:pointer}
+  #cropImg{transition:filter .05s linear}
+  @media(max-width:560px){
+    .ed-controls{padding:9px 12px;gap:8px}
+    .ed-row{gap:7px}
+    .ed-seg{flex-basis:100%;order:2}
+    .ed-sliders{gap:10px}
+    .crop-stage{min-height:90px}
+    .crop-head .sub{display:none}
+    .crop-head{padding:12px 14px}
+  }
+
+  /* quick rotate on the card */
+  .cardrot{position:absolute;top:7px;right:39px;width:26px;height:26px;border-radius:8px;border:0;
+    background:rgba(255,255,255,.92);color:var(--ink-soft);cursor:pointer;display:grid;place-items:center;
+    box-shadow:var(--shadow-sm);opacity:0;transform:translateY(-3px);transition:all .15s;z-index:3}
+  .card:hover .cardrot,.card:focus-within .cardrot{opacity:1;transform:translateY(0)}
+  .cardrot:hover{background:var(--primary);color:#fff}
+  @media(hover:none){ .cardrot{opacity:1;transform:none} }
 
   /* history button in topbar */
   .topbar-right{display:flex;align-items:center;gap:12px;min-width:0}
@@ -558,8 +620,21 @@
       Share
     </button>
     <a id="openLink" class="btn btn-ghost btn-block" target="_blank" rel="noopener">Open in new tab</a>
-    <p class="result-hint">Saved to <b>History</b> (top of the page). If the download doesn’t start, tap <b>Open in new tab</b> and use your browser’s save button.</p>
+    <button id="viewBtn" class="btn btn-ghost btn-block">View &amp; save pages</button>
+    <p class="result-hint">Saved to <b>History</b> (top of the page). Download, share, and new-tab are often blocked inside an app preview — if they don’t work, tap <b>View PDF here</b>, or open this tool in <b>Safari</b> (or host it) where saving works normally.</p>
     <button id="resultClose" class="result-close" aria-label="Close">Back to editing</button>
+  </div>
+</div>
+
+<!-- In-app viewer: pages as images you can long-press to save (works when downloads are blocked) -->
+<div class="overlay" id="pdfView">
+  <div class="pdfview-card">
+    <div class="pdfview-head">
+      <span id="pdfViewName">Pages</span>
+      <button class="crop-x" id="pdfViewClose" aria-label="Close">&times;</button>
+    </div>
+    <div id="pdfPages"></div>
+    <div class="pdfview-foot"><b>Long-press a page → “Save to Photos.”</b> For a single combined PDF, open this tool in Safari or host it.</div>
   </div>
 </div>
 
@@ -569,38 +644,86 @@
   <span id="toastMsg">Saved</span>
 </div>
 
-<!-- Crop editor -->
+<!-- Page editor (crop + rotate + filter + light) -->
 <div class="overlay" id="cropper">
   <div class="crop-card">
     <div class="crop-head">
       <div>
-        <h3>Adjust page boundaries</h3>
-        <div class="sub">Drag the corners and edges — or move the whole frame</div>
+        <h3>Edit page</h3>
+        <div class="sub">Straighten, crop, and tune — drag the corners to set the page</div>
       </div>
       <button class="crop-x" id="cropCancel" aria-label="Cancel">&times;</button>
     </div>
     <div class="crop-stage">
       <div class="crop-wrap" id="cropWrap">
         <img id="cropImg" alt="">
-        <div class="crop-box" id="cropBox">
-          <div class="crop-grid"></div>
-          <div class="hdl" data-edge="nw"></div>
-          <div class="hdl" data-edge="n"></div>
-          <div class="hdl" data-edge="ne"></div>
-          <div class="hdl" data-edge="e"></div>
-          <div class="hdl" data-edge="se"></div>
-          <div class="hdl" data-edge="s"></div>
-          <div class="hdl" data-edge="sw"></div>
-          <div class="hdl" data-edge="w"></div>
-        </div>
+        <svg class="quad-svg" id="quadSvg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <path id="quadMask" fill="rgba(18,24,38,.55)" fill-rule="evenodd"></path>
+          <line id="quadT1" stroke="rgba(255,255,255,.35)" stroke-width="1" vector-effect="non-scaling-stroke"></line>
+          <line id="quadT2" stroke="rgba(255,255,255,.35)" stroke-width="1" vector-effect="non-scaling-stroke"></line>
+          <polygon id="quadLine" fill="none" stroke="#fff" stroke-width="2" vector-effect="non-scaling-stroke"></polygon>
+        </svg>
+        <div class="qh" data-c="nw" aria-label="Top-left corner"></div>
+        <div class="qh" data-c="ne" aria-label="Top-right corner"></div>
+        <div class="qh" data-c="se" aria-label="Bottom-right corner"></div>
+        <div class="qh" data-c="sw" aria-label="Bottom-left corner"></div>
       </div>
     </div>
+
+    <div class="ed-controls">
+      <div class="ed-row">
+        <span class="ed-label">Rotate</span>
+        <div class="ed-rotate">
+          <button class="ed-icobtn" id="rotL" title="Rotate left" aria-label="Rotate left">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 5L4 10l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 10h10a6 6 0 016 6v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="ed-icobtn" id="rotR" title="Rotate right" aria-label="Rotate right">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 5l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 10H10a6 6 0 00-6 6v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="ed-slider ed-fine">
+          <label>Straighten <b id="fineVal">0°</b></label>
+          <input type="range" id="fineRange" min="-45" max="45" value="0" step="0.5">
+        </div>
+      </div>
+
+      <div class="ed-row">
+        <span class="ed-label">Crop</span>
+        <button class="ed-pill" id="cropAuto">Auto-detect</button>
+        <button class="ed-pill" id="cropReset">Whole image</button>
+        <span class="ed-hint">Drag each white corner to match the page</span>
+      </div>
+
+      <div class="ed-row">
+        <span class="ed-label">Filter</span>
+        <div class="seg ed-seg" id="segFilterPage" role="group" aria-label="Page filter">
+          <button data-pfilter="default" aria-pressed="true">Default</button>
+          <button data-pfilter="original" aria-pressed="false">Original</button>
+          <button data-pfilter="enhance" aria-pressed="false">Enhance</button>
+          <button data-pfilter="sharpen" aria-pressed="false">Sharpen</button>
+          <button data-pfilter="gray" aria-pressed="false">Gray</button>
+          <button data-pfilter="bw" aria-pressed="false">B&amp;W</button>
+        </div>
+      </div>
+
+      <div class="ed-row ed-sliders">
+        <div class="ed-slider">
+          <label>Brightness <b id="brightVal">0</b></label>
+          <input type="range" id="brightRange" min="-100" max="100" value="0" step="1">
+        </div>
+        <div class="ed-slider">
+          <label>Contrast <b id="contrastVal">0</b></label>
+          <input type="range" id="contrastRange" min="-100" max="100" value="0" step="1">
+        </div>
+        <button class="ed-pill" id="lightReset">Reset</button>
+      </div>
+    </div>
+
     <div class="crop-actions">
-      <button class="crop-btn" id="cropAuto">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12a7 7 0 0111.9-4.95M19 12a7 7 0 01-11.9 4.95" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16 4v4h-4M8 20v-4h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Auto-detect
+      <button class="crop-btn" id="cropJpg">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Save as JPG
       </button>
-      <button class="crop-btn" id="cropReset">Whole image</button>
       <div class="spacer"></div>
       <button class="crop-btn" id="cropCancelBtn">Cancel</button>
       <button class="crop-btn primary" id="cropApply">Apply</button>
@@ -678,7 +801,7 @@
   const result    = $('result');
   const cropper   = $('cropper');
   const cropImg   = $('cropImg');
-  const cropBox   = $('cropBox');
+  const cropWrap  = $('cropWrap');
   let cropTargetId = null;
 
   // ---------- Auto edge detection (trims uniform borders) ----------
@@ -719,6 +842,169 @@
   // cropped (or full) thumbnail as a small jpeg data url
   // ---------- Scan filters (CamScanner-style enhancement) ----------
   const clampByte = v => v<0?0:(v>255?255:v);
+
+  // ---------- Geometry engine: arbitrary rotation + perspective warp ----------
+  function bboxDims(w,h,deg){
+    deg=((deg%360)+360)%360;
+    if(deg===0||deg===180) return {w:w,h:h};
+    if(deg===90||deg===270) return {w:h,h:w};
+    const r=deg*Math.PI/180, c=Math.abs(Math.cos(r)), s=Math.abs(Math.sin(r));
+    return {w:w*c+h*s, h:w*s+h*c};
+  }
+  // Rotate a source by an arbitrary angle; canvas grows to fit; corners filled (default white).
+  function rotatedCanvas(src, deg, fill){
+    deg=((deg%360)+360)%360;
+    const w=src.naturalWidth||src.width, h=src.naturalHeight||src.height;
+    if(deg===0) return src;
+    const bb=bboxDims(w,h,deg);
+    const c=document.createElement('canvas'); c.width=Math.max(1,Math.round(bb.w)); c.height=Math.max(1,Math.round(bb.h));
+    const ctx=c.getContext('2d'); ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='high';
+    if(fill){ ctx.fillStyle=fill; ctx.fillRect(0,0,c.width,c.height); }
+    ctx.translate(c.width/2, c.height/2); ctx.rotate(deg*Math.PI/180); ctx.drawImage(src, -w/2, -h/2, w, h);
+    return c;
+  }
+  // Map a point between original-image space and the rotated bounding-box space.
+  function origToBbox(ox,oy, w,h, deg){
+    const r=deg*Math.PI/180, bb=bboxDims(w,h,deg);
+    const cx=ox-w/2, cy=oy-h/2;
+    return { x:cx*Math.cos(r)-cy*Math.sin(r)+bb.w/2, y:cx*Math.sin(r)+cy*Math.cos(r)+bb.h/2 };
+  }
+  function bboxToOrig(bx,by, w,h, deg){
+    const r=-deg*Math.PI/180, bb=bboxDims(w,h,deg);
+    const cx=bx-bb.w/2, cy=by-bb.h/2;
+    return { x:cx*Math.cos(r)-cy*Math.sin(r)+w/2, y:cx*Math.sin(r)+cy*Math.cos(r)+h/2 };
+  }
+  // Re-express a normalized quad from one rotation to another (keeps it on the same content).
+  function remapQuad(quad, w,h, oldDeg, newDeg){
+    const bo=bboxDims(w,h,oldDeg), bn=bboxDims(w,h,newDeg), out={};
+    for(const k of ['nw','ne','se','sw']){
+      const p=quad[k];
+      const o=bboxToOrig(p.x*bo.w, p.y*bo.h, w,h, oldDeg);
+      const n=origToBbox(o.x,o.y, w,h, newDeg);
+      out[k]={ x:n.x/bn.w, y:n.y/bn.h };
+    }
+    return out;
+  }
+
+  // Solve A·x = b (square) by Gaussian elimination with partial pivoting.
+  function solveLinear(A,b){
+    const n=b.length;
+    for(let i=0;i<n;i++){
+      let p=i; for(let r=i+1;r<n;r++) if(Math.abs(A[r][i])>Math.abs(A[p][i])) p=r;
+      const tA=A[i]; A[i]=A[p]; A[p]=tA; const tb=b[i]; b[i]=b[p]; b[p]=tb;
+      const piv=A[i][i]||1e-9;
+      for(let r=0;r<n;r++){ if(r===i) continue; const f=A[r][i]/piv; for(let c=i;c<n;c++) A[r][c]-=f*A[i][c]; b[r]-=f*b[i]; }
+    }
+    return b.map((v,i)=>v/(A[i][i]||1e-9));
+  }
+  // Homography mapping src[i] → dst[i] (4 pts). Returns [a,b,c,d,e,f,g,h] (h33 = 1).
+  function homography(src,dst){
+    const A=[], b=[];
+    for(let i=0;i<4;i++){
+      const x=src[i][0], y=src[i][1], X=dst[i][0], Y=dst[i][1];
+      A.push([x,y,1,0,0,0,-x*X,-y*X]); b.push(X);
+      A.push([0,0,0,x,y,1,-x*Y,-y*Y]); b.push(Y);
+    }
+    return solveLinear(A,b);
+  }
+  function quadOutputSize(q){
+    const D=(p,r)=>Math.hypot(p.x-r.x,p.y-r.y);
+    return { w:Math.max(D(q.nw,q.ne), D(q.sw,q.se)), h:Math.max(D(q.nw,q.sw), D(q.ne,q.se)) };
+  }
+  // Perspective-warp the quad (pixel corners in srcCanvas) onto an outW×outH rectangle.
+  function warpQuad(srcCanvas, q, outW, outH){
+    outW=Math.max(1,Math.round(outW)); outH=Math.max(1,Math.round(outH));
+    let sctx;
+    if(!srcCanvas.getContext){                       // an <img> was passed → draw onto a canvas
+      const cc=document.createElement('canvas');
+      cc.width=srcCanvas.naturalWidth||srcCanvas.width||1; cc.height=srcCanvas.naturalHeight||srcCanvas.height||1;
+      sctx=cc.getContext('2d',{willReadFrequently:true}); sctx.drawImage(srcCanvas,0,0); srcCanvas=cc;
+    } else {
+      sctx=srcCanvas.getContext('2d',{willReadFrequently:true});
+    }
+    const sw=srcCanvas.width, sh=srcCanvas.height;
+    const sd=sctx.getImageData(0,0,sw,sh).data;
+    const rect=[[0,0],[outW,0],[outW,outH],[0,outH]];
+    const quad=[[q.nw.x,q.nw.y],[q.ne.x,q.ne.y],[q.se.x,q.se.y],[q.sw.x,q.sw.y]];
+    const H=homography(rect,quad); const a=H[0],b=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
+    const out=document.createElement('canvas'); out.width=outW; out.height=outH;
+    const octx=out.getContext('2d'); const od=octx.createImageData(outW,outH); const dd=od.data;
+    for(let y=0;y<outH;y++){
+      for(let x=0;x<outW;x++){
+        const den=g*x+h*y+1, X=(a*x+b*y+c)/den, Y=(d*x+e*y+f)/den, oi=(y*outW+x)*4;
+        if(X<0||Y<0||X>=sw-1||Y>=sh-1){ dd[oi]=dd[oi+1]=dd[oi+2]=dd[oi+3]=255; continue; }
+        const x0=X|0, y0=Y|0, fx=X-x0, fy=Y-y0;
+        const i00=(y0*sw+x0)*4, i10=i00+4, i01=i00+sw*4, i11=i01+4;
+        dd[oi]  =(sd[i00]*(1-fx)+sd[i10]*fx)*(1-fy)+(sd[i01]*(1-fx)+sd[i11]*fx)*fy;
+        dd[oi+1]=(sd[i00+1]*(1-fx)+sd[i10+1]*fx)*(1-fy)+(sd[i01+1]*(1-fx)+sd[i11+1]*fx)*fy;
+        dd[oi+2]=(sd[i00+2]*(1-fx)+sd[i10+2]*fx)*(1-fy)+(sd[i01+2]*(1-fx)+sd[i11+2]*fx)*fy;
+        dd[oi+3]=255;
+      }
+    }
+    octx.putImageData(od,0,0);
+    return out;
+  }
+  // The crop/perspective region for a page: explicit quad, legacy rect crop, or none.
+  function regionQuad(im){
+    if(im.quad) return im.quad;
+    if(im.crop){ const c=im.crop; return {nw:{x:c.x,y:c.y},ne:{x:c.x+c.w,y:c.y},se:{x:c.x+c.w,y:c.y+c.h},sw:{x:c.x,y:c.y+c.h}}; }
+    return null;
+  }
+  function isFullQuad(q){
+    const near=(a,b)=>Math.abs(a-b)<0.004;
+    return q && near(q.nw.x,0)&&near(q.nw.y,0)&&near(q.ne.x,1)&&near(q.ne.y,0)&&
+           near(q.se.x,1)&&near(q.se.y,1)&&near(q.sw.x,0)&&near(q.sw.y,1);
+  }
+
+  // Rotation (rot+fine) + perspective warp + downscale to a target. NO colour processing.
+  function composeGeometry(decoded, im, maxSide){
+    const total=(im.rot||0)+(im.fine||0);
+    let rc=rotatedCanvas(decoded, total, '#ffffff');
+    let rw=rc.naturalWidth||rc.width, rh=rc.naturalHeight||rc.height;
+    // limit warp-sampling source size for speed when the target is small
+    const srcCap=maxSide*2.2;
+    if(Math.max(rw,rh)>srcCap){
+      const s=srcCap/Math.max(rw,rh);
+      const t=document.createElement('canvas'); t.width=Math.round(rw*s); t.height=Math.round(rh*s);
+      const tc=t.getContext('2d'); tc.imageSmoothingEnabled=true; tc.imageSmoothingQuality='high';
+      tc.drawImage(rc,0,0,t.width,t.height); rc=t; rw=t.width; rh=t.height;
+    }
+    const quad=regionQuad(im);
+    if(quad && !isFullQuad(quad)){
+      const qp={ nw:{x:quad.nw.x*rw,y:quad.nw.y*rh}, ne:{x:quad.ne.x*rw,y:quad.ne.y*rh},
+                 se:{x:quad.se.x*rw,y:quad.se.y*rh}, sw:{x:quad.sw.x*rw,y:quad.sw.y*rh} };
+      const os=quadOutputSize(qp); let tw=os.w, th=os.h; const m=Math.max(tw,th);
+      if(m>maxSide){ const s=maxSide/m; tw*=s; th*=s; }
+      const base=warpQuad(rc, qp, tw, th);
+      return { canvas:base, w:base.width, h:base.height };
+    }
+    let tw=rw, th=rh; const m=Math.max(tw,th);
+    if(m>maxSide){ const s=maxSide/m; tw=Math.round(rw*s); th=Math.round(rh*s); }
+    if(tw===rw && th===rh && rc.getContext) return { canvas:rc, w:rw, h:rh };
+    const t=document.createElement('canvas'); t.width=tw; t.height=th;
+    const tc=t.getContext('2d'); tc.imageSmoothingEnabled=true; tc.imageSmoothingQuality='high';
+    tc.drawImage(rc,0,0,tw,th); return { canvas:t, w:tw, h:th };
+  }
+
+  // The filter actually used for a page: its own override, or the global default.
+  function effectiveFilter(im){
+    return (im.filter && im.filter!=='default') ? im.filter : (opt.filter||'original');
+  }
+  // Brightness (−100..100, additive) + contrast (−100..100, around mid-grey). In-place.
+  function applyBrightContrast(canvas, bright, contrast){
+    bright=bright||0; contrast=contrast||0;
+    if(!bright && !contrast) return;
+    const ctx=canvas.getContext('2d',{willReadFrequently:true});
+    const id=ctx.getImageData(0,0,canvas.width,canvas.height), d=id.data;
+    const cf=1+contrast/100;          // −100→0, 0→1, +100→2
+    const bo=bright*1.28;             // −100→−128 … +100→+128
+    for(let i=0;i<d.length;i+=4){
+      d[i]  =clampByte((d[i]  -128)*cf+128+bo);
+      d[i+1]=clampByte((d[i+1]-128)*cf+128+bo);
+      d[i+2]=clampByte((d[i+2]-128)*cf+128+bo);
+    }
+    ctx.putImageData(id,0,0);
+  }
 
   // Unsharp mask: out = in + amount*(in − blurred). Makes handwriting/text crisp.
   function unsharpMask(canvas, amount, radiusDiv){
@@ -801,25 +1087,20 @@
   }
 
   // Small unfiltered base (crop baked in) cached per image, so filter switching is instant.
+  // _base caches the page's GEOMETRY (oriented + cropped), no colour processing — so
+  // filter / brightness / contrast can be re-applied instantly when they change.
   async function buildBase(im, decoded){
-    const maxS=720;
-    const cx=im.crop?im.crop.x*im.w:0, cy=im.crop?im.crop.y*im.h:0;
-    const sw=Math.max(1, im.crop?im.crop.w*im.w:im.w);
-    const sh=Math.max(1, im.crop?im.crop.h*im.h:im.h);
-    const scale=Math.min(1, maxS/Math.max(sw,sh));
-    const ow=Math.max(1,Math.round(sw*scale)), oh=Math.max(1,Math.round(sh*scale));
-    const c=document.createElement('canvas'); c.width=ow; c.height=oh;
-    const ctx=c.getContext('2d'); ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='high';
-    ctx.drawImage(decoded, cx,cy,sw,sh, 0,0,ow,oh);
-    im._base = await loadImg(c.toDataURL('image/jpeg',0.9));
+    const g = composeGeometry(decoded, im, 820);
+    im._base = await loadImg(g.canvas.toDataURL('image/jpeg',0.9));
   }
 
-  // Filtered thumbnail from the cached base (synchronous, fast).
+  // Filtered thumbnail from the cached geometry base (synchronous, fast).
   function renderThumb(im){
     if(!im._base) return im.dataUrl;
     const c=document.createElement('canvas'); c.width=im._base.naturalWidth; c.height=im._base.naturalHeight;
     c.getContext('2d').drawImage(im._base,0,0);
-    processCanvas(c, opt.filter);
+    processCanvas(c, effectiveFilter(im));
+    applyBrightContrast(c, im.bright, im.contrast);
     return c.toDataURL('image/jpeg',0.85);
   }
 
@@ -903,7 +1184,8 @@
         img.onload = async ()=>{
           const w=img.naturalWidth||img.width, h=img.naturalHeight||img.height;
           // No auto-crop on upload: keep the original untouched so it embeds at full resolution.
-          const im={ id:++uid, name:src.name, type:src.type||'image/png', dataUrl, w, h, crop:null, thumb:null, _base:null };
+          const im={ id:++uid, name:src.name, type:src.type||'image/png', dataUrl, w, h,
+                     crop:null, quad:null, rot:0, fine:0, filter:'default', bright:0, contrast:0, thumb:null, _base:null };
           try{ await buildBase(im, img); im.thumb=renderThumb(im); }catch(e){ im.thumb=dataUrl; }
           resolve(im);
         };
@@ -983,11 +1265,14 @@
       card.className='card';
       card.draggable=true;
       card.dataset.id=im.id;
+      const edited = im.crop || im.rot || (im.filter&&im.filter!=='default') || im.bright || im.contrast;
       card.innerHTML =
         '<div class="thumb"><img src="'+(im.thumb||im.dataUrl)+'" alt=""></div>'+
         '<div class="badge">'+(i+1)+'</div>'+
         '<button class="remove" title="Remove" aria-label="Remove image">'+svgIcon('x')+'</button>'+
-        '<button class="adjust'+(im.crop?' on':'')+'" title="Adjust boundaries" aria-label="Adjust boundaries">'+svgIcon('crop')+(im.crop?'Cropped':'Adjust')+'</button>'+
+        '<button class="cardrot" title="Rotate right" aria-label="Rotate right">'+
+          '<svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M15 5l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 10H10a6 6 0 00-6 6v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>'+
+        '<button class="adjust'+(edited?' on':'')+'" title="Edit page" aria-label="Edit page">'+svgIcon('crop')+(edited?'Edited':'Edit')+'</button>'+
         '<div class="card-foot">'+
           '<span class="fname" title="'+escapeAttr(im.name)+'">'+escapeHtml(im.name)+'</span>'+
           '<div class="moves">'+
@@ -997,6 +1282,7 @@
         '</div>';
 
       card.querySelector('.remove').addEventListener('click', (e)=>{ e.stopPropagation(); removeImage(im.id); });
+      card.querySelector('.cardrot').addEventListener('click', (e)=>{ e.stopPropagation(); rotatePage(im.id, 90); });
       card.querySelector('.adjust').addEventListener('click', (e)=>{ e.stopPropagation(); openCropper(im.id); });
       card.querySelector('.mv-l').addEventListener('click', (e)=>{ e.stopPropagation(); move(i,i-1); });
       card.querySelector('.mv-r').addEventListener('click', (e)=>{ e.stopPropagation(); move(i,i+1); });
@@ -1067,71 +1353,189 @@
   wireSeg('segQuality','quality');
   wireSeg('segFilter','filter');
 
-  // ---------- Crop editor ----------
+  // ---------- Quad (perspective) overlay ----------
   const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-  function pctNum(s){ return parseFloat(s)||0; }
-  function getBox(){ return {l:pctNum(cropBox.style.left),t:pctNum(cropBox.style.top),w:pctNum(cropBox.style.width),h:pctNum(cropBox.style.height)}; }
-  function setBox(s){
-    cropBox.style.left=s.l+'%'; cropBox.style.top=s.t+'%';
-    cropBox.style.width=s.w+'%'; cropBox.style.height=s.h+'%';
+  const quadSvg=$('quadSvg'), quadLine=$('quadLine'), quadMask=$('quadMask');
+  let quad={ nw:{x:0,y:0}, ne:{x:1,y:0}, se:{x:1,y:1}, sw:{x:0,y:1} };
+  const QH = {};
+  document.querySelectorAll('#cropWrap .qh').forEach(h=> QH[h.dataset.c]=h);
+
+  function fullQuad(){ return { nw:{x:0,y:0}, ne:{x:1,y:0}, se:{x:1,y:1}, sw:{x:0,y:1} }; }
+  function rectToQuadObj(c){ return { nw:{x:c.x,y:c.y}, ne:{x:c.x+c.w,y:c.y}, se:{x:c.x+c.w,y:c.y+c.h}, sw:{x:c.x,y:c.y+c.h} }; }
+  function pt(p){ return (p.x*100)+','+(p.y*100); }
+  function drawQuad(){
+    const o=quad.nw, a=quad.ne, b=quad.se, c=quad.sw;
+    quadLine.setAttribute('points', pt(o)+' '+pt(a)+' '+pt(b)+' '+pt(c));
+    // darken outside the quad: outer rect (cw) with inner quad (ccw) via evenodd
+    quadMask.setAttribute('d',
+      'M0,0 L100,0 L100,100 L0,100 Z '+
+      'M'+pt(o)+' L'+pt(c)+' L'+pt(b)+' L'+pt(a)+' Z');
+    // thirds guide lines (between opposite edges)
+    const lerp=(p,q,t)=>({x:p.x+(q.x-p.x)*t,y:p.y+(q.y-p.y)*t});
+    const t1a=lerp(o,c,1/3), t1b=lerp(a,b,1/3), t2a=lerp(o,c,2/3), t2b=lerp(a,b,2/3);
+    $('quadT1').setAttribute('x1',t1a.x*100); $('quadT1').setAttribute('y1',t1a.y*100);
+    $('quadT1').setAttribute('x2',t1b.x*100); $('quadT1').setAttribute('y2',t1b.y*100);
+    $('quadT2').setAttribute('x1',t2a.x*100); $('quadT2').setAttribute('y1',t2a.y*100);
+    $('quadT2').setAttribute('x2',t2b.x*100); $('quadT2').setAttribute('y2',t2b.y*100);
+    for(const k in QH){ QH[k].style.left=(quad[k].x*100)+'%'; QH[k].style.top=(quad[k].y*100)+'%'; }
   }
-  function applyMove(dx,dy,s){
-    return { l:clamp(s.l+dx,0,100-s.w), t:clamp(s.t+dy,0,100-s.h), w:s.w, h:s.h };
-  }
-  function applyResize(edge,dx,dy,s){
-    const MIN=8; let {l,t,w,h}=s;
-    if(edge.indexOf('w')>=0){ const nl=clamp(l+dx,0,l+w-MIN); w=w+(l-nl); l=nl; }
-    if(edge.indexOf('e')>=0){ w=clamp(w+dx,MIN,100-l); }
-    if(edge.indexOf('n')>=0){ const nt=clamp(t+dy,0,t+h-MIN); h=h+(t-nt); t=nt; }
-    if(edge.indexOf('s')>=0){ h=clamp(h+dy,MIN,100-t); }
-    return {l,t,w,h};
+  function setQuad(q){ quad={nw:{...q.nw},ne:{...q.ne},se:{...q.se},sw:{...q.sw}}; drawQuad(); }
+
+  let qdrag=null;
+  for(const k in QH){
+    const handle=QH[k];
+    handle.addEventListener('pointerdown',(e)=>{
+      e.preventDefault();
+      const rect=cropImg.getBoundingClientRect();
+      qdrag={ c:k, rect };
+      handle.setPointerCapture(e.pointerId);
+    });
+    handle.addEventListener('pointermove',(e)=>{
+      if(!qdrag || qdrag.c!==k) return;
+      const r=qdrag.rect;
+      quad[k]={ x:clamp((e.clientX-r.left)/(r.width||1),0,1), y:clamp((e.clientY-r.top)/(r.height||1),0,1) };
+      drawQuad();
+    });
+    const end=()=>{ qdrag=null; };
+    handle.addEventListener('pointerup',end);
+    handle.addEventListener('pointercancel',end);
   }
 
-  let drag=null;
-  cropBox.addEventListener('pointerdown',(e)=>{
-    e.preventDefault();
-    const handle=e.target.closest('.hdl');
-    const rect=cropImg.getBoundingClientRect();
-    drag={ mode:handle?handle.dataset.edge:'move', sx:e.clientX, sy:e.clientY,
-           iw:rect.width||1, ih:rect.height||1, s:getBox() };
-    cropBox.setPointerCapture(e.pointerId);
-  });
-  cropBox.addEventListener('pointermove',(e)=>{
-    if(!drag) return;
-    const dx=(e.clientX-drag.sx)/drag.iw*100;
-    const dy=(e.clientY-drag.sy)/drag.ih*100;
-    setBox(drag.mode==='move'?applyMove(dx,dy,drag.s):applyResize(drag.mode,dx,dy,drag.s));
-  });
-  const endDrag=()=>{ drag=null; };
-  cropBox.addEventListener('pointerup',endDrag);
-  cropBox.addEventListener('pointercancel',endDrag);
+  // ---------- Page editor (perspective + rotate + filter + light) ----------
+  let editIm=null, editOrig=null, editGeomCanvas=null;
+  let pRot=0, pFine=0, pFilter='default', pBright=0, pContrast=0;
 
-  function openCropper(id){
+  function pageFilterEffective(f){ return (f && f!=='default') ? f : (opt.filter||'original'); }
+  function applyLightCss(){
+    cropImg.style.filter = (pBright||pContrast)
+      ? 'brightness('+(1+pBright/160).toFixed(3)+') contrast('+(1+pContrast/100).toFixed(3)+')'
+      : 'none';
+  }
+  function setPageFilterButtons(f){
+    document.querySelectorAll('#segFilterPage [data-pfilter]').forEach(b=>{
+      b.setAttribute('aria-pressed', String(b.dataset.pfilter===f));
+    });
+  }
+  function rebuildEditGeom(){
+    const oc=rotatedCanvas(editOrig, pRot+pFine, '#ffffff');
+    const w=oc.naturalWidth||oc.width, h=oc.naturalHeight||oc.height;
+    const s=Math.min(1, 1200/Math.max(w,h));
+    const cw=Math.max(1,Math.round(w*s)), ch=Math.max(1,Math.round(h*s));
+    const c=document.createElement('canvas'); c.width=cw; c.height=ch;
+    const ctx=c.getContext('2d'); ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='high';
+    ctx.drawImage(oc,0,0,cw,ch);
+    editGeomCanvas=c;
+  }
+  function fitEditorImage(){
+    const stage=cropImg.closest('.crop-stage'); if(!stage) return;
+    const cs=getComputedStyle(stage);
+    const padV=parseFloat(cs.paddingTop)+parseFloat(cs.paddingBottom);
+    const padH=parseFloat(cs.paddingLeft)+parseFloat(cs.paddingRight);
+    const h=Math.max(80, stage.clientHeight - padV);
+    const w=Math.max(80, stage.clientWidth - padH);
+    cropImg.style.maxHeight=h+'px';
+    cropImg.style.maxWidth=w+'px';
+  }
+  function renderEditPreview(){
+    return new Promise((res)=>{
+      const c=document.createElement('canvas'); c.width=editGeomCanvas.width; c.height=editGeomCanvas.height;
+      c.getContext('2d').drawImage(editGeomCanvas,0,0);
+      processCanvas(c, pageFilterEffective(pFilter));
+      cropImg.onload=()=>{ fitEditorImage(); res(); };
+      cropImg.src=c.toDataURL('image/jpeg',0.9);
+      if(cropImg.complete && cropImg.naturalWidth){ fitEditorImage(); res(); }
+    });
+  }
+
+  async function openCropper(id){
     const im=images.find(x=>x.id===id); if(!im) return;
-    cropTargetId=id;
-    const place=()=>{ const c=im.crop||{x:0,y:0,w:1,h:1}; setBox({l:c.x*100,t:c.y*100,w:c.w*100,h:c.h*100}); };
-    cropImg.onload=place;
-    cropImg.src=im.dataUrl;
-    if(cropImg.complete && cropImg.naturalWidth) place();
+    editIm=im; cropTargetId=id;
+    pRot=im.rot||0; pFine=im.fine||0; pFilter=im.filter||'default'; pBright=im.bright||0; pContrast=im.contrast||0;
     cropper.classList.add('show');
+    cropWrap.style.transform='';
+    try{ editOrig=await loadImg(im.dataUrl); }catch(e){ closeCropper(); return; }
+    rebuildEditGeom();
+    fineBaked=pRot+pFine;
+    await renderEditPreview();
+    setQuad(im.quad ? im.quad : (im.crop ? rectToQuadObj(im.crop) : fullQuad()));
+    setPageFilterButtons(pFilter);
+    $('brightRange').value=pBright; $('brightVal').textContent=pBright;
+    $('contrastRange').value=pContrast; $('contrastVal').textContent=pContrast;
+    $('fineRange').value=pFine; $('fineVal').textContent=(pFine>0?'+':'')+pFine+'°';
+    applyLightCss();
+    requestAnimationFrame(fitEditorImage);
   }
-  function closeCropper(){ cropper.classList.remove('show'); cropTargetId=null; }
+  function closeCropper(){
+    cropper.classList.remove('show'); cropTargetId=null;
+    editIm=null; editOrig=null; editGeomCanvas=null; cropImg.style.filter='none'; cropWrap.style.transform='';
+  }
   function cropperAuto(){
-    const im=images.find(x=>x.id===cropTargetId); if(!im) return;
-    const c=autoDetectCrop(cropImg, im.w, im.h);
-    if(c) setBox({l:c.x*100,t:c.y*100,w:c.w*100,h:c.h*100});
-    else { setBox({l:4,t:4,w:92,h:92}); showToast('No clear borders found — drag to set'); }
+    const c=autoDetectCrop(cropImg, cropImg.naturalWidth, cropImg.naturalHeight);
+    if(c) setQuad(rectToQuadObj(c));
+    else { setQuad(rectToQuadObj({x:0.04,y:0.04,w:0.92,h:0.92})); showToast('No clear borders found — drag the corners'); }
   }
-  function cropperReset(){ setBox({l:0,t:0,w:100,h:100}); }
+  function cropperReset(){ setQuad(fullQuad()); }
+
+  // Apply ±90° turn: remap the quad through the rotation so it stays on the same content.
+  async function editRotate(delta){
+    if(!editOrig) return;
+    const w=editOrig.naturalWidth||editOrig.width, h=editOrig.naturalHeight||editOrig.height;
+    const oldA=pRot+pFine; pRot=((pRot+delta)%360+360)%360; const newA=pRot+pFine;
+    quad=remapQuad(quad, w, h, oldA, newA);
+    rebuildEditGeom(); await renderEditPreview(); drawQuad();
+    fineBaked=newA;
+  }
+
+  let fineBaked=0;
+  function fineLivePreview(){
+    cropWrap.style.transform = 'rotate('+((pRot+pFine)-fineBaked)+'deg)';
+  }
+  async function fineCommit(){
+    if(!editOrig) return;
+    const w=editOrig.naturalWidth||editOrig.width, h=editOrig.naturalHeight||editOrig.height;
+    const oldA=fineBaked, newA=pRot+pFine;
+    if(Math.abs(oldA-newA)<0.001){ cropWrap.style.transform=''; return; }
+    quad=remapQuad(quad, w, h, oldA, newA);
+    rebuildEditGeom(); await renderEditPreview();
+    cropWrap.style.transform=''; fineBaked=newA; drawQuad();
+  }
+
+  function quadOrNull(){
+    return isFullQuad(quad) ? null : { nw:{...quad.nw}, ne:{...quad.ne}, se:{...quad.se}, sw:{...quad.sw} };
+  }
+  async function editSaveJpg(){
+    if(!editIm) return;
+    showToast('Preparing JPG…');
+    const temp=Object.assign({}, editIm, {crop:null, quad:quadOrNull(), rot:pRot, fine:pFine, filter:pFilter, bright:pBright, contrast:pContrast});
+    await exportPageJpg(temp, editIm.name);
+  }
   async function cropperApply(){
-    const im=images.find(x=>x.id===cropTargetId); if(!im){ closeCropper(); return; }
-    const b=getBox();
-    let crop={ x:b.l/100, y:b.t/100, w:b.w/100, h:b.h/100 };
-    if(crop.x<0.006 && crop.y<0.006 && crop.w>0.99 && crop.h>0.99) crop=null; // near-full = no crop
-    im.crop=crop;
-    await buildBase(im, cropImg);   // cropImg holds the decoded full-res original
-    im.thumb=renderThumb(im);
-    closeCropper();
+    if(!editIm){ closeCropper(); return; }
+    const applyBtn=$('cropApply'); if(applyBtn) applyBtn.disabled=true;
+    try{
+      editIm.crop=null; editIm.quad=quadOrNull();
+      editIm.rot=pRot; editIm.fine=pFine; editIm.filter=pFilter; editIm.bright=pBright; editIm.contrast=pContrast;
+      const orig=editOrig;                       // capture before close clears it
+      await buildBase(editIm, orig);
+      editIm.thumb=renderThumb(editIm);
+      closeCropper();
+      render();
+    }catch(err){
+      console.error('Apply failed:', err);
+      showToast('Couldn’t apply edits — please try again', true);
+      closeCropper();
+      render();
+    }finally{
+      if(applyBtn) applyBtn.disabled=false;
+    }
+  }
+
+  // Quick 90° rotation straight from the card
+  async function rotatePage(id, delta){
+    const im=images.find(x=>x.id===id); if(!im) return;
+    im.rot=((im.rot+delta)%360+360)%360;
+    im.crop=null; im.quad=null;                // rotation invalidates the old crop region
+    try{ const orig=await loadImg(im.dataUrl); await buildBase(im, orig); im.thumb=renderThumb(im); }catch(e){}
     render();
   }
 
@@ -1152,54 +1556,70 @@
   // scans/photos (typically ≤4000px) are filtered at full resolution; only extreme images are capped.
   const FILTER_CAP = { max:7000, high:5000, small:2200 };
 
-  // Returns the image (cropped + filtered at full res) plus its page dimensions.
+  // Renders a page's pixels at full quality: orient → crop → (upscale if low-res) → filter → light.
+  // Returns a canvas. Shared by PDF export and single-page JPG export.
+  async function composePage(im){
+    const q = QUALITY[opt.quality] || QUALITY.high;
+    const filter = effectiveFilter(im);
+    const img = await loadImg(im.dataUrl);
+    const colorActive = (filter!=='original') || im.bright || im.contrast;
+    const maxSide = (q.maxPx===Infinity) ? (colorActive ? (FILTER_CAP[opt.quality]||5000) : 100000) : q.maxPx;
+
+    let { canvas:base, w:bw, h:bh } = composeGeometry(img, im, maxSide);
+
+    // Upscale low-res pages when a filter/light edit is active, so text isn't pixelated.
+    if(colorActive && Math.max(bw,bh) < 1800){
+      const up=Math.min(3, 1800/Math.max(bw,bh));
+      const t=document.createElement('canvas'); t.width=Math.round(bw*up); t.height=Math.round(bh*up);
+      const tc=t.getContext('2d'); tc.imageSmoothingEnabled=true; tc.imageSmoothingQuality='high';
+      tc.drawImage(base,0,0,t.width,t.height); base=t; bw=t.width; bh=t.height;
+    }
+    // composeGeometry may return the source image element; ensure we own a canvas before processing.
+    if(!base.getContext){
+      const t=document.createElement('canvas'); t.width=bw; t.height=bh;
+      t.getContext('2d').drawImage(base,0,0,bw,bh); base=t;
+    }
+    processCanvas(base, filter);
+    applyBrightContrast(base, im.bright, im.contrast);
+    return { canvas:base, filter, w:bw, h:bh };
+  }
+
+  // Returns the page (rotated + perspective-corrected + filtered at full res) plus its dimensions.
   async function prepareForPdf(im){
     const q = QUALITY[opt.quality] || QUALITY.high;
-    const filter = opt.filter || 'original';
-    const hasCrop = !!im.crop;
+    const filter = effectiveFilter(im);
     const sourceIsPng = (im.type==='image/png');
+    const total = (im.rot||0)+(im.fine||0);
+    const geomTouched = !!im.quad || !!im.crop || total!==0;
+    const untouched = !geomTouched && !im.bright && !im.contrast && filter==='original';
 
-    // Fast path: untouched original (lossless) — only when nothing alters the pixels.
-    if(!hasCrop && filter==='original' && q.maxPx===Infinity &&
+    // Fast path: untouched original passes through losslessly (no re-encode).
+    if(untouched && q.maxPx===Infinity &&
        (im.type==='image/jpeg' || im.type==='image/jpg' || sourceIsPng)){
       return { data:im.dataUrl, fmt:sourceIsPng?'PNG':'JPEG', w:im.w, h:im.h };
     }
 
-    const img = await loadImg(im.dataUrl);
-    const sx = hasCrop ? im.crop.x*im.w : 0;
-    const sy = hasCrop ? im.crop.y*im.h : 0;
-    const sw = Math.max(1, hasCrop ? im.crop.w*im.w : im.w);
-    const sh = Math.max(1, hasCrop ? im.crop.h*im.h : im.h);
+    const { canvas:c, w:ow, h:oh } = await composePage(im);
 
-    let cap = q.maxPx;
-    if(filter!=='original') cap = Math.min(cap, FILTER_CAP[opt.quality]||3000);
-    let ow=sw, oh=sh;
-    const longest=Math.max(sw,sh);
-    if(filter!=='original' && longest < 1800){
-      // Low-res source + a quality filter → upscale (capped 3×) so text isn't pixelated.
-      const up=Math.min(3, 1800/longest);
-      ow=sw*up; oh=sh*up;
-    }
-    const scale = Math.min(1, cap/Math.max(ow,oh));
-    if(scale<1){ ow*=scale; oh*=scale; }
-    ow=Math.max(1,Math.round(ow)); oh=Math.max(1,Math.round(oh));
-
-    const c=document.createElement('canvas'); c.width=ow; c.height=oh;
-    const ctx=c.getContext('2d');
-    ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='high';
-    ctx.drawImage(img, sx,sy, sw,sh, 0,0, ow,oh);
-
-    processCanvas(c, filter);
-
-    // Encoding: B&W → PNG (crisp + tiny). Max → PNG (lossless). Filtered colour/gray → JPEG. Else by source.
+    // Encoding: B&W → PNG (crisp + tiny). Max → PNG (lossless). Else JPEG, unless an untouched PNG.
     let usePng;
     if(filter==='bw') usePng=true;
     else if(q.lossless) usePng=true;
     else if(opt.quality==='small') usePng=false;
-    else usePng = (filter==='original') ? sourceIsPng : false;
+    else usePng = (!geomTouched && filter==='original' && !im.bright && !im.contrast) ? sourceIsPng : false;
 
     const data = usePng ? c.toDataURL('image/png') : c.toDataURL('image/jpeg', q.jpeg);
     return { data, fmt: usePng?'PNG':'JPEG', w:ow, h:oh };
+  }
+
+  // Export a single page as a JPG download (full-res, with its current edits applied).
+  async function exportPageJpg(im, baseName){
+    const { canvas } = await composePage(im);
+    canvas.toBlob(b=>{
+      if(!b){ showToast('Export failed — try again', true); return; }
+      const n=(baseName||'page').replace(/[\\/:*?"<>|]+/g,'').replace(/\.(jpe?g|png)$/i,'')||'page';
+      triggerDownload(b, n+'.jpg');
+    }, 'image/jpeg', 0.95);
   }
 
   const tick = ()=> new Promise(r=> requestAnimationFrame(()=> setTimeout(r,0)));
@@ -1284,7 +1704,10 @@
     const sb=$('shareBtn');
     if(canShareFiles([file])){
       sb.classList.remove('hidden');
-      sb.onclick=async ()=>{ try{ await navigator.share({files:[file], title:name}); }catch(e){} };
+      sb.onclick=async ()=>{
+        const ok=await friendlyShare([file], name);
+        if(!ok){ showToast('Sharing is blocked in this preview — open in Safari to share', true); triggerDownload(blob, name); }
+      };
     } else { sb.classList.add('hidden'); }
     result.classList.add('show');
     // keep a copy in history
@@ -1434,6 +1857,12 @@
   function canShareFiles(files){
     try{ return !!(navigator.canShare && navigator.canShare({files})); }catch(e){ return false; }
   }
+  // Try the native share sheet. Returns true if shared or user-cancelled, false if blocked/unsupported.
+  async function friendlyShare(files, title){
+    if(!canShareFiles(files)) return false;
+    try{ await navigator.share({files, title}); return true; }
+    catch(e){ return (e && e.name==='AbortError'); }   // AbortError = user cancelled (fine)
+  }
 
   // ZIP (lazy-loaded) for bundling several PDFs into one download
   let zipLibPromise=null;
@@ -1464,11 +1893,9 @@
   async function shareSelected(){
     const recs=selectedRecords(); if(!recs.length) return;
     const files=recs.map(r=>new File([r.blob], r.name, {type:'application/pdf'}));
-    if(canShareFiles(files)){
-      try{ await navigator.share({ files, title: files.length>1?'PDFs':files[0].name }); }
-      catch(e){ /* user cancelled */ }
-    } else {
-      showToast('Sharing several files isn’t supported here — downloading instead', true);
+    const ok=await friendlyShare(files, files.length>1?'PDFs':files[0].name);
+    if(!ok){
+      showToast('Export is blocked inside the app — open this tool in Safari (or host it) to save/share', true);
       await downloadAsZip(recs);
     }
   }
@@ -1495,6 +1922,36 @@
   // Clicking the download link still confirms + lets users keep editing
   $('dlLink').addEventListener('click', ()=> setTimeout(closeResult, 400));
   result.addEventListener('click', (e)=>{ if(e.target===result) closeResult(); });
+  // In-app viewer: render each page as an <img> the user can long-press to save to Photos
+  async function pageImageDataUrl(im, maxSide){
+    const img=await loadImg(im.dataUrl);
+    let { canvas, w, h }=composeGeometry(img, im, maxSide);
+    if(!canvas.getContext){ const t=document.createElement('canvas'); t.width=w; t.height=h; t.getContext('2d').drawImage(canvas,0,0); canvas=t; }
+    processCanvas(canvas, effectiveFilter(im));
+    applyBrightContrast(canvas, im.bright, im.contrast);
+    return canvas.toDataURL('image/jpeg', 0.92);
+  }
+  async function openPdfView(){
+    if(!images.length){ showToast('Create a PDF first', true); return; }
+    const cont=$('pdfPages');
+    $('pdfViewName').textContent=($('rName').textContent)||'Pages';
+    cont.innerHTML='<div class="pv-loading">Rendering pages…</div>';
+    $('pdfView').classList.add('show');
+    cont.innerHTML='';
+    for(let i=0;i<images.length;i++){
+      try{
+        const url=await pageImageDataUrl(images[i], 1700);
+        const el=document.createElement('img'); el.src=url; el.className='pv-page'; el.alt='Page '+(i+1);
+        cont.appendChild(el);
+      }catch(e){ console.error('view page failed', e); }
+      await tick();
+    }
+    if(!cont.children.length) cont.innerHTML='<div class="pv-loading">Couldn’t render the pages.</div>';
+  }
+  function closePdfView(){ $('pdfView').classList.remove('show'); $('pdfPages').innerHTML=''; }
+  $('viewBtn').addEventListener('click', openPdfView);
+  $('pdfViewClose').addEventListener('click', closePdfView);
+  $('pdfView').addEventListener('click', (e)=>{ if(e.target===$('pdfView')) closePdfView(); });
 
   // history panel
   $('histBtn').addEventListener('click', openHistory);
@@ -1505,12 +1962,30 @@
   $('histDownloadSel').addEventListener('click', downloadSelected);
   $('histDeleteSel').addEventListener('click', deleteSelected);
 
-  // crop editor
+  // crop / page editor
   $('cropAuto').addEventListener('click', cropperAuto);
   $('cropReset').addEventListener('click', cropperReset);
   $('cropApply').addEventListener('click', cropperApply);
   $('cropCancel').addEventListener('click', closeCropper);
   $('cropCancelBtn').addEventListener('click', closeCropper);
+  $('rotL').addEventListener('click', ()=> editRotate(-90));
+  $('rotR').addEventListener('click', ()=> editRotate(90));
+  $('fineRange').addEventListener('input', e=>{ pFine=+e.target.value; $('fineVal').textContent=(pFine>0?'+':'')+pFine+'°'; fineLivePreview(); });
+  $('fineRange').addEventListener('change', fineCommit);
+  $('cropJpg').addEventListener('click', editSaveJpg);
+  document.querySelectorAll('#segFilterPage [data-pfilter]').forEach(btn=>{
+    btn.addEventListener('click', async ()=>{
+      pFilter=btn.dataset.pfilter; setPageFilterButtons(pFilter); await renderEditPreview();
+    });
+  });
+  $('brightRange').addEventListener('input', e=>{ pBright=+e.target.value; $('brightVal').textContent=pBright; applyLightCss(); });
+  $('contrastRange').addEventListener('input', e=>{ pContrast=+e.target.value; $('contrastVal').textContent=pContrast; applyLightCss(); });
+  $('lightReset').addEventListener('click', ()=>{
+    pBright=0; pContrast=0;
+    $('brightRange').value=0; $('brightVal').textContent=0;
+    $('contrastRange').value=0; $('contrastVal').textContent=0;
+    applyLightCss();
+  });
   cropper.addEventListener('click', (e)=>{ if(e.target===cropper) closeCropper(); });
 
   // OS file drag-and-drop (window-wide → highlights dropzone, drops anywhere work)
@@ -1532,6 +2007,9 @@
   window.addEventListener('keydown', e=>{
     if(e.key==='Escape' && $('history').classList.contains('show')) closeHistory();
   });
+  // Keep the editor image fitted on resize / rotation
+  window.addEventListener('resize', ()=>{ if(cropper.classList.contains('show')) fitEditorImage(); });
+  window.addEventListener('orientationchange', ()=>{ if(cropper.classList.contains('show')) setTimeout(fitEditorImage,250); });
 
   render();
   initHistory();
